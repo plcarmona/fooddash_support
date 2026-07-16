@@ -2,7 +2,6 @@ __pycache__/
 *.pyc
 .venv/
 .env
-output/
 !output/.gitkeep
 .ruff_cache/
 .pytest_cache/
