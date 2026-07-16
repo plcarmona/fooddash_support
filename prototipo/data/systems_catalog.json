@@ -1,0 +1,133 @@
+{
+  "_comment": "Catalogo de sistemas/componentes de FoodDash. Lo usa el agente Bug para mapear un patron de error a un sistema responsable. Mantiene aliases (nombres que aparecen en logs), dueno del equipo y severidad default.",
+  "systems": [
+    {
+      "id": "customer_app_mobile",
+      "name": "Customer App (mobile)",
+      "owner": "Mobile",
+      "aliases": ["crash", "cart", "CartRenderer", "order_draft", "app_version"],
+      "signals": ["crash", "stacktrace", "NullPointerException", "screen=cart"],
+      "notes": "App iOS/Android del cliente. Bugs aca son crash, freeze o JS-error en runtime movil."
+    },
+    {
+      "id": "customer_app_web",
+      "name": "Customer App (web)",
+      "owner": "Web Frontend",
+      "aliases": ["frontend_error", "checkout", "confirmation", "build=web"],
+      "signals": ["js_error", "frontend_error", "screen=confirmation"],
+      "notes": "Frontend web del cliente."
+    },
+    {
+      "id": "payment_service",
+      "name": "Payment Service",
+      "owner": "Pagos",
+      "aliases": ["payment", "payment_attempt", "idempotency_key"],
+      "signals": ["idempotency_key_reused", "double_charge", "payment SUCCESS", "amount="],
+      "notes": "Procesa cobros. Bug critico: doble cobro por idempotency."
+    },
+    {
+      "id": "order_service",
+      "name": "Order Service",
+      "owner": "Backend",
+      "aliases": ["order_create", "order_placed", "order_state"],
+      "signals": ["order_create ERROR", "order not created"],
+      "notes": "Crea y orquesta el ciclo de vida del pedido."
+    },
+    {
+      "id": "inventory_service",
+      "name": "Inventory Service",
+      "owner": "Backend",
+      "aliases": ["inventory_service", "downstream=inventory_service"],
+      "signals": ["timeout downstream=inventory_service"],
+      "notes": "Servicio downstream de inventario. Suele ser fuente de timeouts en order_create."
+    },
+    {
+      "id": "api_gateway",
+      "name": "API Gateway",
+      "owner": "Plataforma",
+      "aliases": ["api_gateway", "p95_latency_ms", "baseline_ms"],
+      "signals": ["p95_latency_ms", "error_rate="],
+      "notes": "Gateway de API. Su latencia afecta a toda la app."
+    },
+    {
+      "id": "availability_service",
+      "name": "Availability Service",
+      "owner": "Catalogo",
+      "aliases": ["availability_service", "tz_config", "open_restaurants"],
+      "signals": ["tz_config=UTC", "open_restaurants=0", "total_restaurants="],
+      "notes": "Decide que restaurantes aparecen abiertos. Sensible a timezone."
+    },
+    {
+      "id": "delivery_geofencing",
+      "name": "Delivery / Geofencing Service",
+      "owner": "Logistica",
+      "aliases": ["delivery_status", "gps_lat", "distance_m", "set_by=courier_app"],
+      "signals": ["status=DELIVERED", "distance_m>200"],
+      "notes": "Valida (o deberia validar) que el DELIVERED ocurra cerca del cliente. Bug: no valida geofencing."
+    },
+    {
+      "id": "geocoding_service",
+      "name": "Geocoding Service",
+      "owner": "Mapas",
+      "aliases": ["geocode", "resolved_lat", "confidence"],
+      "signals": ["confidence<0.6", "resolved_lat", "geocode"],
+      "notes": "Convierte direccion a lat/lon. Bug: acepta resultados de baja confianza sin alertar."
+    },
+    {
+      "id": "courier_app",
+      "name": "Courier App",
+      "owner": "Logistica Movil",
+      "aliases": ["courier_app", "courier_location_stream", "courier_action", "courier_batch"],
+      "signals": ["last_ping", "gap_s>300", "courier_app_version"],
+      "notes": "App del repartidor. Bugs: stream de ubicacion congelado, acciones bloqueadas."
+    },
+    {
+      "id": "sms_otp_provider",
+      "name": "SMS / OTP Provider",
+      "owner": "Cuentas",
+      "aliases": ["otp_send", "sms_gw", "provider_error"],
+      "signals": ["provider=sms_gw", "carrier_unreachable", "all_failed"],
+      "notes": "Proveedor externo de SMS para OTP. Falla = no se pueden crear cuentas."
+    },
+    {
+      "id": "menu_publishing",
+      "name": "Menu Publishing",
+      "owner": "Catalogo",
+      "aliases": ["menu_publish", "draft_state", "published"],
+      "signals": ["published=FALSE", "draft_state=UNPUBLISHED"],
+      "notes": "Flujo de publicacion de platos. Suele ser config del restaurante, no bug."
+    },
+    {
+      "id": "coupon_service",
+      "name": "Coupon Service",
+      "owner": "Promos",
+      "aliases": ["coupon_apply", "valid_until", "code="],
+      "signals": ["result=REJECTED", "reason=expired"],
+      "notes": "Valida cupones. Suele ser config (vencimiento) o bug (criterio de vencimiento)."
+    },
+    {
+      "id": "earnings_batch",
+      "name": "Earnings Batch (courier)",
+      "owner": "Finanzas Logistica",
+      "aliases": ["earnings_batch", "included_in_batch", "cutoff"],
+      "signals": ["included_in_batch=FALSE", "delivered_after_cutoff"],
+      "notes": "Procesa pagos a repartidores. Problemas de timing/config de cutoff."
+    },
+    {
+      "id": "restaurant_scheduling",
+      "name": "Restaurant Scheduling",
+      "owner": "Catalogo",
+      "aliases": ["restaurant_schedule_close", "holiday_hours_enabled", "override_flag"],
+      "signals": ["holiday_hours_enabled=TRUE", "order_placed after schedule_close"],
+      "notes": "Controla horarios y overrides de feriados. Bugs de config de horarios."
+    },
+    {
+      "id": "restaurant_tablet",
+      "name": "Restaurant Tablet App",
+      "owner": "Restaurantes",
+      "aliases": ["device", "notification_sound", "do_not_disturb"],
+      "signals": ["notification_sound=OFF", "do_not_disturb=ON", "volume=0"],
+      "notes": "Tablet del restaurante. Casi siempre config del dispositivo."
+    }
+  ]
+}

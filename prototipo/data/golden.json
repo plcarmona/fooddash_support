@@ -1,0 +1,32 @@
+{
+  "_comment": "Golden set: clasificacion humana del usuario (extraida de ~/roam/20260716104833-casotecnivo_ai_solution_expert.org). Sirve como ground truth para medir el agreement del agente.",
+  "source": "org-roam note 3e0b9a95-114a-480a-8f22-3ee3e54f17df",
+  "labels": {
+    "TCK-1001": {"label": "config", "reason": "Restaurant configura mal el minimo (restaurant_min=6000 por sobre el pedido de 4200)."},
+    "TCK-1002": {"label": "bug", "reason": "El sistema permitio marcar DELIVERED con el courier a 780m del cliente (sin validacion de geofencing). Estado inconsistente."},
+    "TCK-1003": {"label": "config", "reason": "Restaurante subio platos pero quedaron draft_state=UNPUBLISHED; no los publico."},
+    "TCK-1004": {"label": "bug", "reason": "Crash NullPointerException en CartRenderer.line88, app 5.2.8 / Android 9."},
+    "TCK-1005": {"label": "operacion", "reason": "Pedido tardio (73 min vs ETA 35) por saturacion de zona (2 couriers, 19 ordenes)."},
+    "TCK-1006": {"label": "bug", "reason": "Sospecha doble cobro sin evidencia en el ticket. Clasificada como bug por regla de sospecha fundada. TCK-1022 confirma el mismo bug (BUG-002) con evidencia tecnica (idempotency_key_reused)."},
+    "TCK-1007": {"label": "config", "reason": "Policy BLOCKED: restaurant_has_not_confirmed_ready impide marcar recogido. Regla mal calibrada."},
+    "TCK-1008": {"label": "bug", "reason": "Seguimiento del TCK-1002 (mismo order ORD-77145). Mismo bug de validacion de geofencing."},
+    "TCK-1009": {"label": "config", "reason": "Pedido entro tras cierre (23:58 vs 23:30). override holiday_hours_enabled=TRUE mal aplicado."},
+    "TCK-1010": {"label": "config", "reason": "Cupon VERANO30 vencido (valid_until 2026-06-29). El sistema actuo segun la config del cupon."},
+    "TCK-1011": {"label": "bug", "reason": "Pago SUCCESS pero order_create ERROR timeout downstream=inventory_service. Pedido no creado."},
+    "TCK-1012": {"label": "bug", "reason": "Geocoder devolvio confidence=0.31 (baja) y la app navigo igual sin alertar. Validacion ausente."},
+    "TCK-1013": {"label": "operacion", "reason": "Restaurante confirmo todos los items pero falto la bebida al entregar. Error humano de preparacion/empaquetado."},
+    "TCK-1014": {"label": "bug", "reason": "Degradacion del api_gateway: p95=4200ms vs baseline 650ms. Incidente de servicio."},
+    "TCK-1015": {"label": "comercial", "reason": "Consulta comercial pura (renegociar comision). No es bug ni config ni operacion de entrega."},
+    "TCK-1016": {"label": "bug", "reason": "OTP SMS provider sms_gw_2 carrier_unreachable, retry 5 all_failed. Servicio externo caido."},
+    "TCK-1017": {"label": "bug", "reason": "Mismo crash del carrito que TCK-1004 (mismo order ORD-77201). Duplicado del bug CartRenderer."},
+    "TCK-1018": {"label": "operacion", "reason": "Courier entrego pedido de otra persona (batch courier=C-882). Error humano en terreno."},
+    "TCK-1019": {"label": "bug", "reason": "courier_location_stream gap_s=1250, app_version 2.9.4 antigua. Mapa congelado."},
+    "TCK-1020": {"label": "config", "reason": "Tablet con notification_sound=OFF, do_not_disturb=ON. Config del dispositivo."},
+    "TCK-1021": {"label": "none", "reason": "Ticket de prueba/spam (asdf test ignorar). Descartar."},
+    "TCK-1022": {"label": "bug", "reason": "Doble cobro por idempotency_key_reused=TRUE. Bug de Payment Service."},
+    "TCK-1023": {"label": "operacion", "reason": "Courier entregado_after_cutoff; no incluido en batch de ganancias. Timing operativo."},
+    "TCK-1024": {"label": "bug", "reason": "availability_service tz_config=UTC (esperado America/Santiago); 0 restaurantes abiertos. Bug masivo."},
+    "TCK-1025": {"label": "config", "reason": "Policy BLOCKED: no_cancel_after_cooking. Regla configurada bloquea la cancelacion."},
+    "TCK-1026": {"label": "bug", "reason": "frontend_error js_error 'Cannot read properties of undefined (reading map)' en pantalla de confirmacion web."}
+  }
+}
