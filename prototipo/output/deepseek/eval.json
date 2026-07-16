@@ -1,0 +1,71 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "n": 26,
+  "agreement": 26,
+  "accuracy": 1.0,
+  "per_label_recall": {
+    "operacion": {
+      "recall": 1.0,
+      "tp": 4,
+      "fn": 0
+    },
+    "bug": {
+      "recall": 1.0,
+      "tp": 13,
+      "fn": 0
+    },
+    "none": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "comercial": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "config": {
+      "recall": 1.0,
+      "tp": 7,
+      "fn": 0
+    }
+  },
+  "confusion": {
+    "operacion": {
+      "operacion": 4,
+      "bug": 0,
+      "none": 0,
+      "comercial": 0,
+      "config": 0
+    },
+    "bug": {
+      "operacion": 0,
+      "bug": 13,
+      "none": 0,
+      "comercial": 0,
+      "config": 0
+    },
+    "none": {
+      "operacion": 0,
+      "bug": 0,
+      "none": 1,
+      "comercial": 0,
+      "config": 0
+    },
+    "comercial": {
+      "operacion": 0,
+      "bug": 0,
+      "none": 0,
+      "comercial": 1,
+      "config": 0
+    },
+    "config": {
+      "operacion": 0,
+      "bug": 0,
+      "none": 0,
+      "comercial": 0,
+      "config": 7
+    }
+  },
+  "disagreements": []
+}

@@ -1,0 +1,1096 @@
+{
+  "method": "LOOCV-KNN (k=5, embedding=snowflake-arctic-embed2)",
+  "model": "deepseek/deepseek-v4-flash",
+  "prompt": "minimal (category defs only, no specific rules)",
+  "retrieval": "deterministic (cosine similarity on embeddings)",
+  "k": 5,
+  "accuracy": 0.8846,
+  "correct": 23,
+  "n": 26,
+  "gold_in_retrieved": 24,
+  "per_label_recall": {
+    "none": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "config": {
+      "recall": 1.0,
+      "tp": 7,
+      "fn": 0
+    },
+    "operacion": {
+      "recall": 0.75,
+      "tp": 3,
+      "fn": 1
+    },
+    "bug": {
+      "recall": 0.8461538461538461,
+      "tp": 11,
+      "fn": 2
+    },
+    "comercial": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    }
+  },
+  "rows": [
+    {
+      "ticket_id": "TCK-1001",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "System rejected payment because amount below min order. Config issue.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.5774
+        },
+        {
+          "ticket_id": "TCK-1011",
+          "label": "bug",
+          "similarity": 0.5013
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.4948
+        },
+        {
+          "ticket_id": "TCK-1026",
+          "label": "bug",
+          "similarity": 0.4568
+        },
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.4537
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1002",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "El sistema permitió marcar entregado (distance_m=780) sin validar que el repartidor estuviera en la dirección del cliente.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.6713
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.6696
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.632
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.6149
+        },
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.5655
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 2,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1003",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Los platos se guardaron pero no se publicaron (draft_state=UNPUBLISHED). Configuracion del restaurante incompleta.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.4478
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.4428
+        },
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.4423
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.4419
+        },
+        {
+          "ticket_id": "TCK-1024",
+          "label": "bug",
+          "similarity": 0.4414
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 2,
+        "operacion": 2,
+        "bug": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1004",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Crash en app con stacktrace NullPointerException al abrir carrito, evidencia de bug.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1017",
+          "label": "bug",
+          "similarity": 0.7651
+        },
+        {
+          "ticket_id": "TCK-1026",
+          "label": "bug",
+          "similarity": 0.3388
+        },
+        {
+          "ticket_id": "TCK-1014",
+          "label": "bug",
+          "similarity": 0.3292
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.3036
+        },
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.3025
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 2,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1005",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Logs muestran zona centro con solo 2 couriers activos y 19 pedidos abiertos, causando demora. No hay fallo del sistema; es saturacion de zona.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.6696
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.583
+        },
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.5604
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.5486
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.5388
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1006",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.6,
+      "reasoning": "Sospecha fundada de doble cobro sin logs. Se clasifica como bug segun las reglas.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1022",
+          "label": "bug",
+          "similarity": 0.5466
+        },
+        {
+          "ticket_id": "TCK-1015",
+          "label": "comercial",
+          "similarity": 0.445
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.4129
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.4115
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.4021
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 2,
+        "comercial": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1007",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "system_logs: result=BLOCKED reason=restaurant_has_not_confirmed_ready. Sistema actua segun configuracion.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.6149
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.6105
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.5437
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.5385
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.5094
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1008",
+      "gold": "bug",
+      "pred": "none",
+      "correct": false,
+      "confidence": 0.8,
+      "reasoning": "Customer follow-up on previous bug ticket ORD-77145; no new evidence of system failure or actionable issue.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.6713
+        },
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.5877
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.583
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.5466
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.5339
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 3,
+        "bug": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1009",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "El sistema permitió el pedido fuera del horario normal porque la configuración 'holiday_hours_enabled=TRUE' estaba activa, lo que anuló el cierre programado.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.6127
+        },
+        {
+          "ticket_id": "TCK-1024",
+          "label": "bug",
+          "similarity": 0.5941
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.5604
+        },
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.5315
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.5265
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 3,
+        "bug": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1010",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Cupon rechazado por expiracion segun config (valid_until 2026-06-29) aunque usuario decia valido hasta hoy. Error de configuracion de la fecha del cupon.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.4515
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.4306
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.4233
+        },
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.4138
+        },
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.4113
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "operacion": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1011",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Payment succeeded but order creation failed due to timeout in inventory_service, causing inconsistent state.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1022",
+          "label": "bug",
+          "similarity": 0.5487
+        },
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.5371
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.5013
+        },
+        {
+          "ticket_id": "TCK-1026",
+          "label": "bug",
+          "similarity": 0.4614
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.4598
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1012",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "El sistema permitio un geocode con confianza baja (0.31) sin validacion ni alerta, causando direccion erronea.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.5175
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.4776
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.4154
+        },
+        {
+          "ticket_id": "TCK-1014",
+          "label": "bug",
+          "similarity": 0.4131
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.4099
+        }
+      ],
+      "retrieved_label_distribution": {
+        "operacion": 1,
+        "bug": 4
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1013",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Items confirmados por restaurant coinciden con pedido, falta atribuible a error humano en packing.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.5778
+        },
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.5408
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.5322
+        },
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.5315
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.5181
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 3,
+        "bug": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1014",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "api_gateway p95 latency 4200ms vs baseline 650ms (6.5x degradation) indicates a performance bug.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1024",
+          "label": "bug",
+          "similarity": 0.4914
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.4261
+        },
+        {
+          "ticket_id": "TCK-1012",
+          "label": "bug",
+          "similarity": 0.4131
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.4069
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.4024
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1015",
+      "gold": "comercial",
+      "pred": "comercial",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Solicitud puramente comercial y de politica; no es fallo tecnico.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1006",
+          "label": "bug",
+          "similarity": 0.445
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.3039
+        },
+        {
+          "ticket_id": "TCK-1012",
+          "label": "bug",
+          "similarity": 0.2722
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.2559
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.2359
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 2,
+        "bug": 3
+      },
+      "gold_in_retrieved": false
+    },
+    {
+      "ticket_id": "TCK-1016",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Fallo de proveedor externo de SMS (carrier_unreachable) que impide registrar cuenta.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.3907
+        },
+        {
+          "ticket_id": "TCK-1011",
+          "label": "bug",
+          "similarity": 0.3825
+        },
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.3781
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.3604
+        },
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.3473
+        }
+      ],
+      "retrieved_label_distribution": {
+        "operacion": 1,
+        "bug": 4
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1017",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning": "Persistent crash al tocar el carrito, reportado por usuario en Android versión 5.3.0.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1004",
+          "label": "bug",
+          "similarity": 0.7651
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.3982
+        },
+        {
+          "ticket_id": "TCK-1010",
+          "label": "config",
+          "similarity": 0.3913
+        },
+        {
+          "ticket_id": "TCK-1020",
+          "label": "config",
+          "similarity": 0.3865
+        },
+        {
+          "ticket_id": "TCK-1019",
+          "label": "bug",
+          "similarity": 0.3774
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1018",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning": "Courier received two orders from same restaurant and delivered wrong one. Human error in delivery.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.5778
+        },
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.5651
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.5466
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.5388
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.5385
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 2,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1019",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.85,
+      "reasoning": "Conductor no envia pings (gap de 1250s). El mapa no se actualiza: fallo tecnico en la app de reparto.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.632
+        },
+        {
+          "ticket_id": "TCK-1005",
+          "label": "operacion",
+          "similarity": 0.5486
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.5437
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.4908
+        },
+        {
+          "ticket_id": "TCK-1012",
+          "label": "bug",
+          "similarity": 0.4776
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1020",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Tablet notification settings are not configured to play sounds (notification_sound=OFF, volume=0, do_not_disturb=ON).",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.4473
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.4464
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.4341
+        },
+        {
+          "ticket_id": "TCK-1003",
+          "label": "config",
+          "similarity": 0.3964
+        },
+        {
+          "ticket_id": "TCK-1017",
+          "label": "bug",
+          "similarity": 0.3865
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1021",
+      "gold": "none",
+      "pred": "none",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Ticket claramente de prueba o spam, sin contenido accionable.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1006",
+          "label": "bug",
+          "similarity": 0.2085
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.1818
+        },
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.1646
+        },
+        {
+          "ticket_id": "TCK-1017",
+          "label": "bug",
+          "similarity": 0.1589
+        },
+        {
+          "ticket_id": "TCK-1010",
+          "label": "config",
+          "similarity": 0.1367
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 1,
+        "operacion": 1,
+        "bug": 3
+      },
+      "gold_in_retrieved": false
+    },
+    {
+      "ticket_id": "TCK-1022",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Idempotency key reuse caused double charge; system should have prevented duplicate payment.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1011",
+          "label": "bug",
+          "similarity": 0.5487
+        },
+        {
+          "ticket_id": "TCK-1006",
+          "label": "bug",
+          "similarity": 0.5466
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.4845
+        },
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.4665
+        },
+        {
+          "ticket_id": "TCK-1023",
+          "label": "operacion",
+          "similarity": 0.4609
+        }
+      ],
+      "retrieved_label_distribution": {
+        "operacion": 3,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1023",
+      "gold": "operacion",
+      "pred": "config",
+      "correct": false,
+      "confidence": 0.95,
+      "reasoning": "El sistema no incluyo la orden en el lote de ganancias porque se entrego despues del cutoff configurado, comportamiento esperado segun la configuracion.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.5877
+        },
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.5655
+        },
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.5408
+        },
+        {
+          "ticket_id": "TCK-1011",
+          "label": "bug",
+          "similarity": 0.5371
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.5157
+        }
+      ],
+      "retrieved_label_distribution": {
+        "operacion": 2,
+        "bug": 3
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1024",
+      "gold": "bug",
+      "pred": "config",
+      "correct": false,
+      "confidence": 0.95,
+      "reasoning": "timezone config error: UTC instead of America/Santiago causes all restaurants shown closed.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.5941
+        },
+        {
+          "ticket_id": "TCK-1014",
+          "label": "bug",
+          "similarity": 0.4914
+        },
+        {
+          "ticket_id": "TCK-1003",
+          "label": "config",
+          "similarity": 0.4414
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.4303
+        },
+        {
+          "ticket_id": "TCK-1013",
+          "label": "operacion",
+          "similarity": 0.3922
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "operacion": 1,
+        "bug": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1025",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Cancelacion bloqueada por policy de estado COOKING. Sistema actua conforme a configuracion.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1009",
+          "label": "config",
+          "similarity": 0.6127
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.6105
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.5774
+        },
+        {
+          "ticket_id": "TCK-1008",
+          "label": "bug",
+          "similarity": 0.5339
+        },
+        {
+          "ticket_id": "TCK-1018",
+          "label": "operacion",
+          "similarity": 0.4971
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "operacion": 1,
+        "bug": 1
+      },
+      "gold_in_retrieved": true
+    },
+    {
+      "ticket_id": "TCK-1026",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Frontend JS error after successful payment prevents order confirmation display.",
+      "retrieved": [
+        {
+          "ticket_id": "TCK-1011",
+          "label": "bug",
+          "similarity": 0.4614
+        },
+        {
+          "ticket_id": "TCK-1001",
+          "label": "config",
+          "similarity": 0.4568
+        },
+        {
+          "ticket_id": "TCK-1007",
+          "label": "config",
+          "similarity": 0.4269
+        },
+        {
+          "ticket_id": "TCK-1025",
+          "label": "config",
+          "similarity": 0.4071
+        },
+        {
+          "ticket_id": "TCK-1002",
+          "label": "bug",
+          "similarity": 0.4008
+        }
+      ],
+      "retrieved_label_distribution": {
+        "config": 3,
+        "bug": 2
+      },
+      "gold_in_retrieved": true
+    }
+  ]
+}

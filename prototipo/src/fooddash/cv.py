@@ -272,7 +272,8 @@ def _format_few_shot_item(ticket: dict, golden_entry: dict) -> dict:
 #
 # Idea: el prompt de produccion (ROUTER_SYSTEM) codifica 8 reglas decisionales
 # derivadas de tickets especificos. Reportar 100% sobre el mismo set que sirvio
-# para derivarlas es sobreajuste. El LOOCV-KNN (84.6%) usa un prompt MINIMAL
+# para derivarlas es sobreajuste. El LOOCV-KNN (~85–88%, la recuperacion es
+# determinista pero la prediccion del LLM varía) usa un prompt MINIMAL
 # sin reglas. El hibrido es el punto medio: por cada fold LOOCV, incluye en el
 # prompt SOLO las reglas que el training set (los otros 25 tickets) logra trazar
 # (misma etiqueta golden + keyword de la regla presente). Las reglas que solo se

@@ -675,7 +675,7 @@ def cmd_cv_hybrid(args):
     """LOOCV hibrido: prompt minimal + SOLO las reglas justificadas por el training set.
 
     Punto medio entre el known-set (100%, todas las reglas siempre -> leakage) y el
-    LOOCV-KNN minimal (84.6%, sin reglas). Por cada fold, se incluye en el prompt una
+    LOOCV-KNN minimal (~85–88%, sin reglas). Por cada fold, se incluye en el prompt una
     regla solo si algun ticket del training set la traza (misma etiqueta golden +
     keyword de la regla presente). Las reglas que solo se sostenian con el ticket
     held-out se dropean -> se elimina el leakage sin tirar todas las reglas por igual.
@@ -782,7 +782,7 @@ def cmd_cv_hybrid(args):
         console.print(f"\n[yellow]Errores ({len(errors)}):[/]")
         for e in errors:
             drp = ",".join(e["rules_dropped"]) or "—"
-            kind = "BRECHA HONESTA (regla dropeada)" if e["rules_dropped"] else "RAZONAMIENTO (8/8 reglas presentes)"
+            kind = "REGLA AUSENTE (dropeada)" if e["rules_dropped"] else "RAZONAMIENTO (8/8 reglas presentes)"
             console.print(
                 f"  {e['ticket_id']:<10} gold={e['gold']:<10} pred={e['pred']:<10} "
                 f"rules_dropped=[{drp}] -> {kind}"
@@ -816,7 +816,7 @@ def cmd_cv_hybrid(args):
         "",
         "## Metodologia",
         "",
-        "- **Hibrido entre known-set (100%) y LOOCV-KNN minimal (84.6%).**",
+        "- **Hibrido entre known-set (100%) y LOOCV-KNN minimal (~85–88%).**",
         "- Por cada fold LOOCV, el system prompt = `MINIMAL` (defs de categoria) + **solo las reglas",
         "  que el training set logra trazar** (misma etiqueta golden + keyword de la regla).",
         "- Las reglas que solo se sostenian con el ticket held-out se **dropean** -> se elimina el",
@@ -831,7 +831,7 @@ def cmd_cv_hybrid(args):
         f"| **CV-Hibrido accuracy** | **{correct}/{len(rows)} ({accuracy:.1%})** |",
         f"| Folds con alguna regla dropeada | {drops_count}/{len(rows)} |",
         "| Known-set (full prompt, todas las reglas) | 26/26 (100.0%) |",
-        "| LOOCV-KNN minimal (sin reglas) | 22/26 (84.6%) |",
+        "| LOOCV-KNN minimal (sin reglas) | ~85–88% (22–23/26, varía por LLM) |",
         "",
         "## Recall por etiqueta",
         "",
@@ -862,7 +862,7 @@ def cmd_cv_hybrid(args):
         for e in errors:
             drp = ",".join(e["rules_dropped"]) or "—"
             kind = (
-                "**BRECHA HONESTA**: la regla era unica del ticket held-out y se dropeo. "
+                "**REGLA AUSENTE**: la regla era unica del ticket held-out y se dropeo. "
                 "Fallo esperado de generalizacion."
                 if e["rules_dropped"]
                 else "**FALLO DE RAZONAMIENTO**: las 8 reglas estaban presentes y el modelo "
@@ -877,10 +877,10 @@ def cmd_cv_hybrid(args):
     md.append("")
     md.append(
         "El hibrido se ubica entre el known-set (100%, con leakage) y el LOOCV-KNN minimal "
-        "(84.6%, sin reglas). Al dropear solo las reglas no trazables desde el training set, "
+        "(~85–88%, sin reglas). Al dropear solo las reglas no trazables desde el training set, "
         f"se recupera la generalizacion sin tirar el conocimiento codificado: "
         f"{correct}/{len(rows)} ({accuracy:.0%}). Los errores residuales son de dos tipos: "
-        "(a) brechas honestas donde la regla era unica del ticket held-out, y "
+        "(a) regla ausente (la regla era unica del ticket held-out), y "
         "(b) fallos de razonamiento donde las 8 reglas estaban presentes y el modelo las piso."
     )
     (outdir / f"cv_hybrid{suffix}_report.md").write_text("\n".join(md), encoding="utf-8")

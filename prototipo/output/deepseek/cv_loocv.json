@@ -1,0 +1,272 @@
+{
+  "method": "LOOCV (leave-one-out)",
+  "model": "deepseek/deepseek-v4-flash",
+  "prompt": "minimal (category defs only, no specific rules)",
+  "few_shot": "real tickets from training set, n_per_cat=2",
+  "accuracy": 0.8462,
+  "correct": 22,
+  "n": 26,
+  "per_label_recall": {
+    "config": {
+      "recall": 1.0,
+      "tp": 7,
+      "fn": 0
+    },
+    "none": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "bug": {
+      "recall": 0.6923076923076923,
+      "tp": 9,
+      "fn": 4
+    },
+    "comercial": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "operacion": {
+      "recall": 1.0,
+      "tp": 4,
+      "fn": 0
+    }
+  },
+  "rows": [
+    {
+      "ticket_id": "TCK-1001",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Pago rechazado por politica de minimo (4200 < 6000). Sistema actuo correctamente segun configuracion.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1002",
+      "gold": "bug",
+      "pred": "operacion",
+      "correct": false,
+      "confidence": 0.95,
+      "reasoning": "El repartidor marco entregado a 780m de la direccion del cliente, probable error humano o fraude del courier. Sistema registro correctamente la accion.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1003",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Los items se guardaron como borrador (UNPUBLISHED) y no se publicaron. El sistema actuo correctamente; es un problema de configuracion o paso faltante del restaurante.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1004",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Se evidencia crash en app con NullPointerException al acceder al carrito, error de software.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1005",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Demora por saturacion de zona (active_couriers=2, open_orders=19). Problema operativo del mundo real.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1006",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning": "Sospecha fundada de cobro doble (fallo de plataforma) sin logs pero segun reglas es BUG.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1007",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "El sistema bloquea al courier porque el restaurante no confirmo el pedido como listo. Es una configuracion de flujo, no un bug de la app.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1008",
+      "gold": "bug",
+      "pred": "none",
+      "correct": false,
+      "confidence": 0.9,
+      "reasoning": "Cliente solicita actualizacion de ticket previo. No es un nuevo fallo ni evidencia tecnica.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1009",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Sistema permitio el pedido por configuracion de horario festivo (holiday_hours_enabled=TRUE), no por bug. Restaurante debe ajustar su config.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1010",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning": "Sistema rechazo cupon por expiracion (valid_until=2026-06-29). Config del cupon (fecha) causo el rechazo, no es bug ni operacion.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1011",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Payment success but order creation failed due to timeout en inventory_service, generando estado inconsistente (cobro sin orden).",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1012",
+      "gold": "bug",
+      "pred": "operacion",
+      "correct": false,
+      "confidence": 0.7,
+      "reasoning": "Direccion incorrecta ingresada por el cliente; geocoding con baja confianza pero no es fallo de sistema sino error humano.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1013",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "No hay evidencia de fallo del sistema; la orden fue confirmada correctamente, probable error del restaurante (falto la bebida).",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1014",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Degradación de rendimiento en api_gateway (p95 4200ms vs baseline 650ms) afecta a todos los usuarios.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1015",
+      "gold": "comercial",
+      "pred": "comercial",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Restaurante solicita renegociar comision, es consulta comercial.",
+      "n_few_shot": 7
+    },
+    {
+      "ticket_id": "TCK-1016",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Fallo de proveedor externo (carrier_unreachable) impide entrega de SMS.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1017",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning": "Usuario reporta que el crash del carrito persiste (mismo problema que en TCK-1004, ahora app 5.3.0). Sin nuevos logs, pero es un bug recurrente de la app.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1018",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Courier mezclo pedidos del mismo restaurante (batcheo ORD-77360 y ORD-77361). Error humano al entregar.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1019",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning": "El mapa no muestra la ubicacion porque el courier app no envio pings por 20 min (gap_s=1250). Es un defecto en la app del repartidor o conexion.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1020",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Tablet configurada con notificaciones/sonido apagado, el sistema funcionó según su configuración.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1021",
+      "gold": "none",
+      "pred": "none",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Ticket de prueba sin contenido accionable.",
+      "n_few_shot": 7
+    },
+    {
+      "ticket_id": "TCK-1022",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "Idempotency key reuse caused double charge; system allowed duplicate payments.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1023",
+      "gold": "operacion",
+      "pred": "operacion",
+      "correct": true,
+      "confidence": 0.8,
+      "reasoning": "El sistema aplico correctamente la regla de corte batch (delivered_after_cutoff), pero el repartidor experimento un retraso en el pago por timing de proceso batch.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1024",
+      "gold": "bug",
+      "pred": "config",
+      "correct": false,
+      "confidence": 0.95,
+      "reasoning": "Todos los restaurantes aparecen cerrados por un error de configuracion de timezone (UTC en lugar de America/Santiago).",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1025",
+      "gold": "config",
+      "pred": "config",
+      "correct": true,
+      "confidence": 0.9,
+      "reasoning": "El sistema bloqueo la cancelacion segun la politica no_cancel_after_cooking. La configuracion (politica) impide la accion deseada.",
+      "n_few_shot": 8
+    },
+    {
+      "ticket_id": "TCK-1026",
+      "gold": "bug",
+      "pred": "bug",
+      "correct": true,
+      "confidence": 0.95,
+      "reasoning": "Frontend JS error (Cannot read properties of undefined) after successful payment causes blank screen. The user can't see confirmation, leading to confusion. This is a defect in the platform code.",
+      "n_few_shot": 8
+    }
+  ]
+}

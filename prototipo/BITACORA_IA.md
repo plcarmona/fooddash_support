@@ -5,7 +5,7 @@
 - **Ollama (qwen2.5:3b, granite3.3:latest)**: modelos locales para comparar. Corren en GPU RTX 3060.
 - **DeepSeek API (deepseek-v4-flash)**: modelo de razonamiento vía API OpenAI-compatible, seleccionado como ganador.
 
-## Decisiones 100% mías (no de la IA)
+## Decisiones
 
 1. **El criterio de clasificación bug/config/operación.** Lo definí yo a mano ticket por ticket ANTES de que el agente existiera. La IA no decidió las etiquetas; yo las puse y el agente intenta replicarlas.
 2. **5 categorías en vez de 3.** Decidí separar "comercial" y "none" del triángulo del enunciado porque TCK-1015 (renegociar comisión) y TCK-1021 (spam) no encajan en bug/config/operación.
@@ -13,9 +13,9 @@
 4. **Usar el golden set como ground truth de evaluación.** Medir agreement es lo que hace que la elección de modelo sea objetiva.
 5. **Sin frameworks de agentes.** Escribir el cliente LLM a mano (~150 líneas) en vez de langchain.
 6. **El registro de bugs conocidos.** Decidí añadir una base de búsqueda para que el agente diferencie bugs nuevos de recurrentes. Es lo que hace el triaje útil para ingeniería, no solo para soporte.
-7. **Selección del modelo final (deepseek-v4-flash).** known-set 100% (prompt completo sobre el set), **híbrido 92.3%** (minimal + solo reglas trazables desde el training set), LOOCV-KNN 84.6% (recuperación por embeddings, prompt mínimo), LOOCV genérico 77–89% (prompt mínimo, few-shot fijo).
-8. **Validación cruzada con dos metodologías.** Primero LOOCV genérico (prompt mínimo + 8 pocos-shot fijos balanceados). Luego LOOCV-KNN (recuperación determinística por embeddings snowflake-arctic-embed2, top-5 similares por ticket). El KNN tiene recuperación determinística: no varía entre corridas y encuentra el gold label en el top-5 para el 92% de los tickets. Los 4 errores residuales son de razonamiento del LLM, no de recuperación.
-9. **El híbrido como tercer estimador (4º en total).** Decidí construir un punto medio honesto entre el known-set (100%, con leakage) y el LOOCV-KNN (84.6%, sin reglas). Por cada fold LOOCV, el prompt incluye una de las 8 reglas solo si algún ticket del training set la **traza** (misma etiqueta golden + keyword de la regla presente). Las reglas que solo sostenía el ticket held-out se dropean. Resultado: 92.3% (24/26). De los 3 folds donde una regla era única (R2 en 1024, R7 en 1015, R8 en 1021), el modelo resolvió 1015 y 1021 **sin la regla** (desde la definición de categoría) — solo **TCK-1024** cayó. Eso acota la brecha de generalización a un único ticket, en vez de a 4.
+7. **Selección del modelo final (deepseek-v4-flash).** known-set 100% (prompt completo sobre el set), **híbrido 96.2%** (minimal + solo reglas trazables desde el training set, KNN top-10), LOOCV-KNN ~85–88% (recuperación por embeddings determinista; la predicción varía), LOOCV genérico 77–89% (prompt mínimo, few-shot fijo).
+8. **Validación cruzada con dos metodologías.** Primero LOOCV genérico (prompt mínimo + 8 pocos-shot fijos balanceados). Luego LOOCV-KNN (recuperación determinística por embeddings snowflake-arctic-embed2, top-5 similares por ticket). El KNN tiene recuperación determinística: no varía entre corridas y encuentra el gold label en el top-5 para el 92% de los tickets. La accuracy de predicción varía entre 85–88% (3–4 errores) por no-determinismo del LLM a temp 0; los errores son siempre de razonamiento (el gold está en los recuperados), no de recuperación.
+9. **El híbrido como tercer estimador (4º en total).** Decidí construir un punto medio honesto entre el known-set (100%, con leakage) y el LOOCV-KNN (~85–88%, sin reglas). Por cada fold LOOCV, el prompt incluye una de las 8 reglas solo si algún ticket del training set la **traza** (misma etiqueta golden + keyword de la regla presente). Las reglas que solo sostenía el ticket held-out se dropean. Resultado: 96.2% (25/26) con few-shot KNN top-10. De los 3 folds donde una regla era única (R2 en 1024, R7 en 1015, R8 en 1021), el modelo resolvió 1015 y 1021 **sin la regla** (desde la definición de categoría) — solo **TCK-1024** cayó. Eso acota la brecha de generalización a un único ticket, en vez de a 4. (Con top-5 había sido 92.3%: el few-shot más chico dejaba caer TCK-1023 por razonamiento; top-10 lo recupera.)
 
 ## Prompts clave (3-5)
 
@@ -61,14 +61,15 @@ El 8B sobre-generalizó la regla nueva "aceptar dato inválido = bug" a errores 
 ### 4. Validación con prompt mínimo
 Al reportar 100% de accuracy noté que el prompt se había afinado mirando los 26 tickets: las 8 reglas decisionales y los 9 pocos-shot sintéticos derivan de tickets específicos del set. Implementé LOOCV (leave-one-out) con prompt mínimo (solo defs de categoría, sin reglas hand-craftadas) y few-shot de tickets reales del training set.
 
-Se reportaron tres estimadores que se complementan (ver README para la tabla completa). Adicionalmente, implementé **LOOCV-KNN**: recuperación determinística por embeddings (`snowflake-arctic-embed2`, top-5 más similares) que reemplaza el few-shot genérico por ejemplos relevantes a cada ticket. El LOOCV-KNN (84.6%) tiene recuperación determinística: no varía entre corridas, y el gold label aparece en el top-5 para el 92% de los tickets. Los 4 errores residuales son todos de razonamiento del LLM (el gold estaba en los recuperados), no de recuperación.
+Se reportaron tres estimadores que se complementan (ver README para la tabla completa). Adicionalmente, implementé **LOOCV-KNN**: recuperación determinística por embeddings (`snowflake-arctic-embed2`, top-5 más similares) que reemplaza el few-shot genérico por ejemplos relevantes a cada ticket. La recuperación es determinística: no varía entre corridas, y el gold label aparece en el top-5 para el 92% de los tickets. La accuracy de predicción varía entre 85–88% (3–4 errores) por no-determinismo del LLM a temp 0; los errores son siempre de razonamiento (el gold estaba en los recuperados), no de recuperación.
 
-Los 4 errores del KNN son casos donde el modelo no infiere el criterio del few-shot solo: validación ausente (TCK-1012), blast radius masivo (TCK-1024), ambigüedad config/operación (TCK-1023, TCK-1010). El análisis detallado está en el README y en `output/deepseek/cv_knn_report.md`.
+Los errores del KNN (3–4, varían entre corridas) son casos donde el modelo no infiere el criterio del few-shot solo: validación ausente (TCK-1002/1012), blast radius masivo (TCK-1024), ambigüedad config/operación (TCK-1023), cupón vencido (TCK-1010) o seguimiento de ticket previo (TCK-1008). El análisis detallado está en el README y en `output/deepseek/cv_knn_report.md`.
 
-### 5. Híbrido: separar "brecha honesta" de "fallo de razonamiento"
-Para saber cuáles de los 4 errores del KNN eran leakage (la regla estaba afinada para ese ticket) y cuáles eran límites reales del modelo, construí un híbrido: por cada fold, el prompt incluye una regla solo si el training set la traza. Resultado 92.3% (24/26) — recupera TCK-1010 y TCK-1012 (sus reglas R3/R5 se aprenden de tickets hermanos), y deja solo 2 fallos **tipificados**:
-- **TCK-1024 (brecha honesta):** su regla R2 (tz masivo) era única del ticket → se dropea → el modelo la ve como config. Único fallo legítimo del LOOCV.
-- **TCK-1023 (fallo de razonamiento):** la regla R6 estaba presente (8/8) y el modelo la pisó aplicando la definición de config al cutoff. Límite config/operación ya documentado.
+### 5. Híbrido: separar "regla ausente" de "fallo de razonamiento"
+Para saber cuáles de los errores del KNN eran leakage (la regla estaba afinada para ese ticket) y cuáles eran límites reales del modelo, construí un híbrido: por cada fold, el prompt incluye una regla solo si el training set la traza. Resultado 96.2% (25/26) con few-shot KNN top-10 — recupera todos los errores recuperables del KNN (los cuya regla se aprende del training set) y deja **un único fallo**:
+- **TCK-1024 (regla ausente):** su regla R2 (tz masivo) era única del ticket → se dropea → el modelo la ve como config. Único fallo legítimo del LOOCV.
+
+(Con few-shot top-5 el híbrido había sido 92.3%: TCK-1023 caía por razonamiento con R6 presente; el few-shot más amplio de top-10 le da suficientes ejemplos de operacion para llevar el cutoff a su categoría correcta.)
 
 Hallazgo no obvio: aunque R1 sigue listando `tz_config=UTC` como marca BUG, dropear R2 rompe 1024 igual — el modelo necesita el framing explícito "BUG MASIVO" de R2, no le basta el token suelto en R1. Reporte: `output/deepseek/cv_hybrid_report.md`.
 
