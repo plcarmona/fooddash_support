@@ -1,0 +1,99 @@
+{
+  "model": "ollama/qwen2.5:3b",
+  "n": 26,
+  "agreement": 23,
+  "accuracy": 0.8846,
+  "per_label_recall": {
+    "comercial": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "none": {
+      "recall": 1.0,
+      "tp": 1,
+      "fn": 0
+    },
+    "operacion": {
+      "recall": 1.0,
+      "tp": 4,
+      "fn": 0
+    },
+    "bug": {
+      "recall": 0.7692307692307693,
+      "tp": 10,
+      "fn": 3
+    },
+    "config": {
+      "recall": 1.0,
+      "tp": 7,
+      "fn": 0
+    }
+  },
+  "confusion": {
+    "comercial": {
+      "comercial": 1,
+      "none": 0,
+      "operacion": 0,
+      "bug": 0,
+      "config": 0
+    },
+    "none": {
+      "comercial": 0,
+      "none": 1,
+      "operacion": 0,
+      "bug": 0,
+      "config": 0
+    },
+    "operacion": {
+      "comercial": 0,
+      "none": 0,
+      "operacion": 4,
+      "bug": 0,
+      "config": 0
+    },
+    "bug": {
+      "comercial": 0,
+      "none": 0,
+      "operacion": 3,
+      "bug": 10,
+      "config": 0
+    },
+    "config": {
+      "comercial": 0,
+      "none": 0,
+      "operacion": 0,
+      "bug": 0,
+      "config": 7
+    }
+  },
+  "disagreements": [
+    {
+      "ticket_id": "TCK-1008",
+      "gold": "bug",
+      "pred": "operacion",
+      "confidence": 0.8,
+      "model_reasoning": "Pedido marcado como entregado pero no llegó: fallo operativo de procesar la entrega.",
+      "model_evidence": "status=DELIVERED, actual_min=73 vs promised_eta_min=35",
+      "gold_reason": "Seguimiento del TCK-1002 (mismo order ORD-77145). Mismo bug de validacion de geofencing."
+    },
+    {
+      "ticket_id": "TCK-1012",
+      "gold": "bug",
+      "pred": "operacion",
+      "confidence": 0.9,
+      "model_reasoning": "geocode confidence<0.6: la app no valido la direccion del cliente correctamente. Fallo operativo de procesamiento de datos.",
+      "model_evidence": "geocode input_addr='Av Siempre Viva 742', resolved_lat=-34.1701, resolved_lon=-70.7402, confidence=0.31",
+      "gold_reason": "Geocoder devolvio confidence=0.31 (baja) y la app navigo igual sin alertar. Validacion ausente."
+    },
+    {
+      "ticket_id": "TCK-1014",
+      "gold": "bug",
+      "pred": "operacion",
+      "confidence": 0.8,
+      "model_reasoning": "p95_latency_ms muy alto (4200 ms) vs baseline_ms (650 ms): fallo operativo de la app en carga y respuesta.",
+      "model_evidence": "p95_latency_ms=4200, error_rate=0.02",
+      "gold_reason": "Degradacion del api_gateway: p95=4200ms vs baseline 650ms. Incidente de servicio."
+    }
+  ]
+}
